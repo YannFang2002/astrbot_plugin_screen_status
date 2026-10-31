@@ -1,0 +1,16 @@
+name: astrbot_plugin_screen_status
+display_name: 角色小屏状态服务
+short_desc: 给小屏/副屏一个只读 HTTP 接口，拉取角色当前状态（聊天中/忙碌/空闲/睡觉）。
+desc: >-
+  把角色状态做成 HTTP 接口，方便 ESP32、USB 小屏、桌面宠物之类的硬件或程序
+  定时拉取后显示：她现在在聊天、在刷东西，还是闲着；今天聊了多少句、认识几天、
+  最近一句原话。全部只读，不写 AstrBot 数据，也不需要额外部署独立进程。
+version: 1.0.0
+author: YannFang2002
+repo: https://github.com/YannFang2002/astrbot_plugin_screen_status
+astrbot_version: ">=4.14.0"
+tags:
+  - 副屏
+  - 状态
+  - http
+  - 小屏

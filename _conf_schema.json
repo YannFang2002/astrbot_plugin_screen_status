@@ -1,0 +1,155 @@
+{
+  "enable": {
+    "type": "bool",
+    "description": "启用状态服务",
+    "default": true,
+    "hint": "关掉后不监听任何端口"
+  },
+  "bind": {
+    "type": "string",
+    "description": "监听地址",
+    "default": "0.0.0.0",
+    "hint": "同上局域网内的副屏要能访问就用 0.0.0.0；只本机调试可写 127.0.0.1"
+  },
+  "port": {
+    "type": "int",
+    "description": "监听端口",
+    "default": 18900
+  },
+  "token": {
+    "type": "string",
+    "description": "访问令牌（可选）",
+    "default": "",
+    "hint": "留空 = 不校验。填了之后请求头需带 Authorization: Bearer <token> 或 X-Token: <token>。暴露到公网时务必填"
+  },
+  "persona_id": {
+    "type": "string",
+    "description": "人格 ID",
+    "default": "",
+    "hint": "留空 = 取 AstrBot 里排序最靠前的人格。用于读取「她叫什么」和对话数据"
+  },
+  "display_name": {
+    "type": "string",
+    "description": "显示名字（可选）",
+    "default": "",
+    "hint": "留空 = 从人格提示词首句「你叫 XXX」自动提取"
+  },
+  "default_name": {
+    "type": "string",
+    "description": "兜底名字",
+    "default": "Assistant",
+    "hint": "既没配 display_name、提示词里也提取不到时用这个。留默认 Assistant 即可，想显示成自己的角色名就在 display_name 里填"
+  },
+  "db_path": {
+    "type": "string",
+    "description": "AstrBot 数据库路径",
+    "default": "",
+    "hint": "留空 = 自动在 AstrBot 数据目录里找 data_v*.db（取最新的那个）"
+  },
+  "bili_state_path": {
+    "type": "string",
+    "description": "角色活动状态文件（可选）",
+    "default": "",
+    "hint": "留空 = <数据目录>/bili_state.json。这个文件是可选的：存在且含 sessions/browse_min 等字段时，才能显示出「正在刷东西/今日刷了多久」。没有就只显示聊天中/空闲"
+  },
+  "bili_cookie_path": {
+    "type": "string",
+    "description": "Cookie 文件（可选）",
+    "default": "",
+    "hint": "留空 = <数据目录>/secrets/bili_cookie.txt。用于 /api/cover 代理拉取和需要登录的接口；留空且文件不存在也能正常工作"
+  },
+  "proactive_state_path": {
+    "type": "string",
+    "description": "主动消息状态文件（可选）",
+    "default": "",
+    "hint": "留空 = <数据目录>/plugin_data/astrbot_plugin_proactive_chat/state.json。用于显示「下次主动搭话还有几分钟」"
+  },
+  "owner_umo": {
+    "type": "string",
+    "description": "主人会话 umo（可选）",
+    "default": "",
+    "hint": "形如 platform_id:FriendMessage:QQ号。留空则不显示主动搭话倒计时"
+  },
+  "memory_db_path": {
+    "type": "string",
+    "description": "记忆库 SQLite 路径（可选）",
+    "default": "",
+    "hint": "留空 = plugin_data/astrbot_plugin_mnemosyne/chroma_data/chroma.sqlite3。存在才统计记忆条数"
+  },
+  "bili_daily_limit_min": {
+    "type": "int",
+    "description": "每日刷B站上限（分钟）",
+    "default": 120,
+    "hint": "仅用于显示进度条分母"
+  },
+  "sleep_start": {
+    "type": "float",
+    "description": "睡觉开始（小时，小数）",
+    "default": 0.5,
+    "hint": "0.5 = 00:30。允许跨零点，如 23.5 到 7.5"
+  },
+  "sleep_end": {
+    "type": "float",
+    "description": "睡觉结束（小时，小数）",
+    "default": 7.5
+  },
+  "wake_on_chat_sec": {
+    "type": "int",
+    "description": "有互动就算醒着（秒）",
+    "default": 1200,
+    "hint": "睡眠窗口内，如果这么多秒内说过话，sleeping 仍为 false"
+  },
+  "chatting_window_sec": {
+    "type": "int",
+    "description": "判定「聊天中」的时间窗（秒）",
+    "default": 180,
+    "hint": "最近一次对话更新距今在此范围内即视为聊天中"
+  },
+  "recent_lines_count": {
+    "type": "int",
+    "description": "返回最近几句原话",
+    "default": 5
+  },
+  "enable_cover_proxy": {
+    "type": "bool",
+    "description": "启用封面代理",
+    "default": true,
+    "hint": "副屏直接拿 /api/cover?b=BVID 当图片用，省得自己处理 Referer"
+  },
+  "enable_docker_status": {
+    "type": "bool",
+    "description": "读取 Docker 容器状态",
+    "default": false,
+    "hint": "仅当 AstrBot 跑在 Docker 里且容器内有 docker CLI 时打开；直装环境请保持关闭"
+  },
+  "cache_ttl_sec": {
+    "type": "int",
+    "description": "状态缓存（秒）",
+    "default": 2,
+    "hint": "副屏每 5 秒拉一次的话留 2 秒就够，避免频繁查库"
+  },
+  "born_at": {
+    "type": "string",
+    "description": "起始日期（可选）",
+    "default": "",
+    "hint": "形如 2026-10-28。留空 = 用数据库里最早的对话时间算「认识第几天」"
+  },
+  "cover_width": {
+    "type": "int",
+    "description": "封面缩略宽度",
+    "default": 320,
+    "hint": "0 = 原图。小屏建议 320，省流量还快"
+  },
+  "model_name": {
+    "type": "string",
+    "description": "显示的模型名（可选）",
+    "default": "",
+    "hint": "留空 = 尝试从 AstrBot 偏好里读；读不到就空着"
+  },
+  "qq_state_override": {
+    "type": "string",
+    "description": "QQ 在线状态（可选）",
+    "default": "",
+    "hint": "online / offline；留空 = 自动判断"
+  }
+}
